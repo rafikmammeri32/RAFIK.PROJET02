@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#061810">
+<title>Protégeons notre environnement</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+:root{--green:#a3ffb0;--dark:#061810;--glass:rgba(255,255,255,.07);--muted:#dcebe1}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{min-height:100%;width:100%}
+body{font-family:Inter,Arial,sans-serif;color:#fff;background:var(--dark);overflow:hidden}
+button{font:inherit}
+.background{position:fixed;inset:0;z-index:0;background:linear-gradient(-45deg,#061810,#0b3524,#145a38,#061810);background-size:400% 400%;animation:bgMove 18s ease infinite}
+@keyframes bgMove{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+.glow{position:fixed;width:430px;height:430px;border-radius:50%;background:rgba(90,255,130,.09);filter:blur(90px);z-index:1;pointer-events:none;animation:glowMove 12s ease-in-out infinite alternate}
+.glow.one{top:-140px;left:-130px}.glow.two{bottom:-160px;right:-130px;animation-delay:-5s}
+@keyframes glowMove{to{transform:translate(90px,-50px)}}
+.particles{position:fixed;inset:0;pointer-events:none;z-index:1;overflow:hidden}
+.particle{position:absolute;bottom:-30px;color:rgba(163,255,176,.45);animation:rise linear infinite}
+@keyframes rise{0%{transform:translateY(0) rotate(0);opacity:0}15%{opacity:1}85%{opacity:.5}100%{transform:translateY(-110vh) rotate(360deg);opacity:0}}
+header{position:fixed;top:0;left:0;width:100%;padding:20px 32px;display:flex;justify-content:space-between;align-items:center;gap:12px;z-index:10}
+.logo{color:var(--green);font-weight:800;letter-spacing:2px;font-size:14px}
+.header-buttons{display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end}
+.header-btn{background:rgba(255,255,255,.08);color:white;border:1px solid rgba(255,255,255,.15);padding:10px 16px;border-radius:30px;cursor:pointer;backdrop-filter:blur(10px);transition:.25s}
+.header-btn:hover{background:rgba(163,255,176,.15);border-color:var(--green);transform:translateY(-2px)}
+main{position:relative;z-index:2}
+.slide{display:none;min-height:100vh;width:100%;padding:100px 8% 95px;justify-content:center;align-items:center;flex-direction:column;text-align:center;overflow-y:auto}
+.slide.active{display:flex;animation:slideIn .55s ease both}
+@keyframes slideIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+h1{font-size:clamp(2.3rem,6vw,5.2rem);font-weight:800;line-height:1.12;margin:22px 0;background:linear-gradient(90deg,#fff,#a3ffb0,#57e98a);-webkit-background-clip:text;background-clip:text;color:transparent}
+h2{font-size:clamp(1.8rem,4vw,3.4rem);font-weight:800;margin-bottom:25px;color:var(--green)}
+h3{color:var(--green);font-size:1.2rem;margin-bottom:12px}
+p{font-size:clamp(.98rem,1.5vw,1.2rem);line-height:1.75;max-width:850px;margin:10px auto;color:var(--muted)}
+.subtitle{letter-spacing:3px;color:var(--green);text-transform:uppercase;font-size:.8rem;margin-bottom:15px;font-weight:700}
+.big-emoji{font-size:clamp(3.5rem,8vw,6rem);margin:10px 0 18px;animation:float 4s ease-in-out infinite}
+@keyframes float{50%{transform:translateY(-12px)}}
+.highlight{color:var(--green);font-weight:700}
+.earth{width:clamp(150px,22vw,260px);aspect-ratio:1;border-radius:50%;background:radial-gradient(circle at 30% 30%,#8dffbb,#168c60 38%,#06452d 68%,#02170e);box-shadow:0 0 40px rgba(100,255,150,.25),inset -25px -20px 45px rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;font-size:clamp(5rem,13vw,8rem);animation:earthFloat 5s ease-in-out infinite}
+@keyframes earthFloat{0%,100%{transform:translateY(0) rotate(-4deg)}50%{transform:translateY(-13px) rotate(4deg)}}
+.cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;width:100%;max-width:980px}
+.card{padding:22px;background:var(--glass);border:1px solid rgba(163,255,176,.2);border-radius:20px;backdrop-filter:blur(12px);transition:.3s}
+.card:hover{transform:translateY(-5px);border-color:var(--green);box-shadow:0 10px 30px rgba(0,255,100,.1)}
+.card p{font-size:.95rem}
+.card-icon{font-size:2.3rem;margin-bottom:10px}
+.info-list{max-width:850px;width:100%;text-align:left;margin:0 auto}
+.info-list li{list-style:none;padding:14px 18px;margin:10px 0;background:var(--glass);border:1px solid rgba(163,255,176,.15);border-radius:13px;font-size:clamp(.95rem,1.4vw,1.15rem);color:#e9f5ec}
+.navigation{position:fixed;bottom:22px;left:0;width:100%;display:flex;justify-content:center;align-items:center;gap:20px;z-index:10}
+.nav-btn{background:var(--green);color:#052514;padding:12px 22px;border:0;border-radius:30px;font-weight:700;cursor:pointer;transition:.25s}
+.nav-btn:hover{background:#fff;transform:scale(1.04)}
+.nav-btn:disabled{opacity:.45;cursor:not-allowed;transform:none}
+#slideCounter{color:var(--green);font-size:14px;font-weight:700;min-width:48px}
+.progress{position:fixed;bottom:0;left:0;height:5px;width:0;background:var(--green);box-shadow:0 0 14px var(--green);transition:width .35s;z-index:11}
+@media(max-width:700px){
+ header{padding:14px}.logo{font-size:10px;letter-spacing:1px}.header-buttons{gap:6px}.header-btn{padding:8px 10px;font-size:11px}
+ .slide{padding:90px 5% 90px;justify-content:center}.cards{grid-template-columns:1fr;gap:10px;max-height:62vh;overflow-y:auto}
+ .card{padding:14px}.card-icon{font-size:1.7rem;margin-bottom:6px}.card h3{font-size:1rem;margin-bottom:5px}.card p{font-size:.85rem}
+ .navigation{bottom:15px;gap:10px}.nav-btn{padding:10px 13px;font-size:12px}
+}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+</style>
+</head>
+<body>
+<div class="background"></div><div class="glow one"></div><div class="glow two"></div><div class="particles" id="particles"></div>
+<header>
+  <div class="logo">🌿 ECO PROJECT</div>
+  <div class="header-buttons">
+    <button class="header-btn" id="musicBtn" type="button">🎵 Musique</button>
+    <button class="header-btn" id="fullscreenBtn" type="button">⛶ Plein écran</button>
+  </div>
+</header>
+<main>
+<section class="slide active">
+  <div class="subtitle">Projet de français</div><div class="earth" aria-hidden="true">🌍</div>
+  <h1>Protégeons<br>notre environnement</h1>
+  <p>La Terre est notre maison. Préservons-la pour les générations futures.</p>
+  <p style="margin-top:22px">Réalisé par : <span class="highlight">........................</span></p>
+  <p>Classe : <span class="highlight">........................</span></p>
+</section>
+<section class="slide">
+  <div class="subtitle">Introduction</div><h2>Qu'est-ce que l'environnement ?</h2><div class="big-emoji">🌳</div>
+  <p>L'environnement est l'ensemble des éléments naturels qui nous entourent : l'air, l'eau, le sol, les plantes et les animaux.</p>
+  <p>Il est indispensable à la vie. Nous devons le protéger et le respecter.</p>
+</section>
+<section class="slide">
+  <div class="subtitle">Les problèmes</div><h2>Les causes de la pollution</h2>
+  <div class="cards">
+    <article class="card"><div class="card-icon">🏭</div><h3>La pollution industrielle</h3><p>Les usines rejettent des fumées et des substances toxiques.</p></article>
+    <article class="card"><div class="card-icon">🚗</div><h3>La pollution de l'air</h3><p>Les voitures produisent des gaz qui polluent l'atmosphère.</p></article>
+    <article class="card"><div class="card-icon">🗑️</div><h3>Les déchets</h3><p>Les déchets abandonnés polluent les rues, les sols et les océans.</p></article>
+    <article class="card"><div class="card-icon">🌲</div><h3>La déforestation</h3><p>La destruction des forêts menace les animaux et les plantes.</p></article>
+  </div>
+</section>
+<section class="slide">
+  <div class="subtitle">Les conséquences</div><h2>Les dangers pour la planète</h2><div class="big-emoji">🌡️</div>
+  <ul class="info-list">
+    <li>🌡️ Le réchauffement climatique.</li><li>🌊 La pollution des mers et des océans.</li>
+    <li>🐼 La disparition de certaines espèces animales.</li><li>🌫️ La pollution de l'air et les maladies respiratoires.</li>
+    <li>🌱 La destruction des espaces naturels.</li>
+  </ul>
+</section>
+<section class="slide">
+  <div class="subtitle">Les solutions</div><h2>Comment protéger l'environnement ?</h2>
+  <div class="cards">
+    <article class="card"><div class="card-icon">♻️</div><h3>Recycler</h3><p>Trier les déchets et réutiliser les objets pour réduire la pollution.</p></article>
+    <article class="card"><div class="card-icon">🌳</div><h3>Planter des arbres</h3><p>Protéger les forêts et préserver les espaces naturels.</p></article>
+    <article class="card"><div class="card-icon">💧</div><h3>Économiser l'eau</h3><p>Éviter le gaspillage de l'eau potable dans notre vie quotidienne.</p></article>
+    <article class="card"><div class="card-icon">🚲</div><h3>Se déplacer autrement</h3><p>Marcher, faire du vélo ou utiliser les transports en commun.</p></article>
+  </div>
+</section>
+<section class="slide">
+  <div class="subtitle">Un avenir durable</div><h2>Les énergies renouvelables</h2><div class="big-emoji">☀️🌬️</div>
+  <p>Les énergies renouvelables sont des sources d'énergie naturelles et durables.</p>
+  <ul class="info-list"><li>☀️ L'énergie solaire.</li><li>🌬️ L'énergie éolienne.</li><li>💧 L'énergie hydraulique.</li></ul>
+  <p>Elles permettent de réduire les émissions de gaz à effet de serre.</p>
+</section>
+<section class="slide">
+  <div class="subtitle">Conclusion</div><div class="earth" aria-hidden="true">🌍</div>
+  <h1>La Terre est<br>notre avenir</h1>
+  <p>La protection de l'environnement est la responsabilité de tous.</p>
+  <p>Chaque petit geste compte : ne jetons pas les déchets dans la nature, économisons l'eau et protégeons les arbres.</p>
+  <p class="highlight">Ensemble, construisons un monde plus propre et plus sain !</p>
+  <h2 style="margin-top:20px">Merci pour votre attention ! 💚</h2>
+</section>
+</main>
+<div class="navigation">
+  <button class="nav-btn" id="prevBtn" type="button">❮ Précédent</button>
+  <span id="slideCounter" aria-live="polite">1 / 7</span>
+  <button class="nav-btn" id="nextBtn" type="button">Suivant ❯</button>
+</div>
+<div class="progress" id="progress"></div>
+<script>
+"use strict";
+document.addEventListener("DOMContentLoaded", function () {
+  const slides = Array.from(document.querySelectorAll(".slide"));
+  const counter = document.getElementById("slideCounter");
+  const progress = document.getElementById("progress");
+  const prevBtn = document.getElementById("prevBtn");
+  const nextBtn = document.getElementById("nextBtn");
+  let currentSlide = 0;
+
+  function showSlide(index) {
+    currentSlide = (index + slides.length) % slides.length;
+    slides.forEach((slide, i) => {
+      slide.classList.toggle("active", i === currentSlide);
+      slide.setAttribute("aria-hidden", i === currentSlide ? "false" : "true");
+    });
+    counter.textContent = (currentSlide + 1) + " / " + slides.length;
+    progress.style.width = ((currentSlide + 1) / slides.length * 100) + "%";
+    prevBtn.disabled = currentSlide === 0;
+    nextBtn.disabled = currentSlide === slides.length - 1;
+  }
+
+  prevBtn.addEventListener("click", () => showSlide(currentSlide - 1));
+  nextBtn.addEventListener("click", () => showSlide(currentSlide + 1));
+  document.addEventListener("keydown", function (event) {
+    if (event.key === "ArrowRight" || event.key === "PageDown") {
+      event.preventDefault(); showSlide(Math.min(currentSlide + 1, slides.length - 1));
+    } else if (event.key === "ArrowLeft" || event.key === "PageUp") {
+      event.preventDefault(); showSlide(Math.max(currentSlide - 1, 0));
+    } else if (event.key === "Home") {
+      showSlide(0);
+    } else if (event.key === "End") {
+      showSlide(slides.length - 1);
+    } else if (event.key === "Escape" && document.fullscreenElement) {
+      document.exitFullscreen().catch(() => {});
+    }
+  });
+
+  const fullscreenBtn = document.getElementById("fullscreenBtn");
+  fullscreenBtn.addEventListener("click", async function () {
+    try {
+      if (!document.fullscreenElement) await document.documentElement.requestFullscreen();
+      else await document.exitFullscreen();
+    } catch (error) {
+      console.warn("Le mode plein écran n'est pas disponible.", error);
+    }
+  });
+
+  // Petite mélodie générée localement; elle démarre après un clic utilisateur.
+  const musicBtn = document.getElementById("musicBtn");
+  let audioContext = null, musicPlaying = false, musicTimer = null, musicStep = 0;
+  const melody = [261.63,329.63,392,329.63,293.66,349.23,440,349.23,261.63,329.63,392,523.25,440,392,329.63,261.63];
+
+  function playNote(frequency) {
+    if (!audioContext || !musicPlaying) return;
+    const oscillator = audioContext.createOscillator();
+    const volume = audioContext.createGain();
+    oscillator.type = "sine";
+    oscillator.frequency.value = frequency;
+    const now = audioContext.currentTime;
+    volume.gain.setValueAtTime(0.0001, now);
+    volume.gain.exponentialRampToValueAtTime(0.025, now + 0.12);
+    volume.gain.exponentialRampToValueAtTime(0.0001, now + 1.1);
+    oscillator.connect(volume);
+    volume.connect(audioContext.destination);
+    oscillator.start(now);
+    oscillator.stop(now + 1.15);
+  }
+
+  musicBtn.addEventListener("click", async function () {
+    try {
+      if (!audioContext) {
+        const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+        if (!AudioContextClass) {
+          musicBtn.textContent = "Musique indisponible";
+          return;
+        }
+        audioContext = new AudioContextClass();
+      }
+      if (audioContext.state === "suspended") await audioContext.resume();
+      if (!musicPlaying) {
+        musicPlaying = true;
+        musicBtn.textContent = "🔇 Arrêter la musique";
+        playNote(melody[musicStep]);
+        musicStep = (musicStep + 1) % melody.length;
+        musicTimer = window.setInterval(function () {
+          playNote(melody[musicStep]);
+          musicStep = (musicStep + 1) % melody.length;
+        }, 700);
+      } else {
+        musicPlaying = false;
+        window.clearInterval(musicTimer);
+        musicTimer = null;
+        musicBtn.textContent = "🎵 Musique";
+      }
+    } catch (error) {
+      console.error("Impossible de lancer la musique.", error);
+      musicBtn.textContent = "🎵 Musique";
+    }
+  });
+
+  // Particules décoratives
+  const particles = document.getElementById("particles");
+  for (let i = 0; i < 24; i++) {
+    const particle = document.createElement("span");
+    particle.className = "particle";
+    particle.textContent = "✦";
+    particle.style.left = (Math.random() * 100) + "%";
+    particle.style.animationDuration = (8 + Math.random() * 12) + "s";
+    particle.style.animationDelay = (Math.random() * 10) + "s";
+    particle.style.fontSize = (10 + Math.random() * 14) + "px";
+    particles.appendChild(particle);
+  }
+
+  showSlide(0);
+});
+</script>
+</body>
+</html>
